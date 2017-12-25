@@ -24,10 +24,20 @@ public class LMS {
 		LMS lms = new LMS();
 		while (true) {
 			lms.selectOperation();
+			System.out.println("Enter '0' to contiue.");
+			Scanner scan = new Scanner(System.in);
+			int num = scan.nextInt();
+			if (num != 0) {
+				scan.close();
+				break;
+			}
+
 		}
+
 	}
 
 	private void selectOperation() {
+		Scanner scan = new Scanner(System.in);
 		System.out.println("1. Add Book");
 		System.out.println("2. Add User");
 		System.out.println("3. Lend Book");
@@ -37,45 +47,41 @@ public class LMS {
 		System.out.println("7. Book Search Book By Name");
 		System.out.println("8. User Search By userName");
 		System.out.println("Select Operation by Entering 1 - 8, enter 9 for Exit.");
-		Scanner scan = new Scanner(System.in);
-		int num = scan.nextInt();
+
+		String num = scan.nextLine();
 		switch (num) {
-		case 1:
-			addBook();
+		case "1":
+			addBook(scan);
 			break;
-		case 2:
-			addUser();
+		case "2":
+			addUser(scan);
 			break;
-		case 3:
-			lendBook();
+		case "3":
+			lendBook(scan);
 			break;
-		case 4:
-			returnBook();
+		case "4":
+			returnBook(scan);
 			break;
-		case 5:
-			bookCountBorrowedByUser();
+		case "5":
+			bookCountBorrowedByUser(scan);
 			break;
-		case 6:
-			bookSearchByTitle();
+		case "6":
+			bookSearchByTitle(scan);
 			break;
-		case 7:
-			bookSearchByName();
+		case "7":
+			bookSearchByName(scan);
 			break;
-		case 8:
-			userSearchByUserName();
+		case "8":
+			userSearchByUserName(scan);
 			break;
 		default:
-			scan.close();
-			System.exit(0);
 			break;
 		}
-		scan.close();
 	}
 
-	private void addBook() {
+	private void addBook(Scanner scan) {
 		BookBean bean = new BookBean();
 		System.out.print("Enter Book Title: ");
-		Scanner scan = new Scanner(System.in);
 		String bookTitle = scan.nextLine();
 		System.out.print("Enter Book Name: ");
 		String bookName = scan.nextLine();
@@ -85,14 +91,14 @@ public class LMS {
 		bean.setBookName(bookName);
 		bean.setBookTitle(bookTitle);
 		bookService.addBook(bean);
-		scan.close();
+		System.out.println("Book added successfully.");
 	}
 
-	private void addUser() {
+	private void addUser(Scanner scan) {
 		UserBean user = new UserBean();
 		UserDetailsBean userDetailsBean = new UserDetailsBean();
 		System.out.print("Enter Username:");
-		Scanner scan = new Scanner(System.in);
+
 		String userName = scan.nextLine();
 		System.out.print("User type: 1 - Student, 2 - Staff");
 		int num = scan.nextInt();
@@ -118,12 +124,13 @@ public class LMS {
 		user.setUserName(userName);
 		user.setUserDetails(userDetailsBean);
 		userService.addUser(user);
-		scan.close();
+		System.out.println("User added successfully.");
+
 	}
 
-	private void lendBook() {
+	private void lendBook(Scanner scan) {
 		System.out.print("Enter UserId:");
-		Scanner scan = new Scanner(System.in);
+
 		String userId = scan.nextLine();
 
 		System.out.print("Enter BookId:");
@@ -135,12 +142,12 @@ public class LMS {
 		} else {
 			System.out.println("Book Cannot be issued.");
 		}
-		scan.close();
+
 	}
 
-	private void returnBook() {
+	private void returnBook(Scanner scan) {
 		System.out.print("Enter UserId:");
-		Scanner scan = new Scanner(System.in);
+
 		String userId = scan.nextLine();
 
 		System.out.print("Enter BookId:");
@@ -152,52 +159,52 @@ public class LMS {
 		} else {
 			System.out.println("Book Returned Fail.");
 		}
-		scan.close();
+
 	}
 
-	private void bookCountBorrowedByUser() {
+	private void bookCountBorrowedByUser(Scanner scan) {
 		System.out.print("Enter UserId:");
-		Scanner scan = new Scanner(System.in);
+
 		String userId = scan.nextLine();
 		int booksCount = userBookService.noOfBooksTakenByUser(userId);
 
 		System.out.println("Books count by User - " + booksCount);
-		scan.close();
+
 	}
 
-	private void bookSearchByTitle() {
+	private void bookSearchByTitle(Scanner scan) {
 		System.out.print("Enter Title:");
-		Scanner scan = new Scanner(System.in);
+
 		String title = scan.nextLine();
 		List<BookBean> books = bookService.searchByTitle(title);
 		System.out.println("No.Of books found in search is : " + books.size());
 		for (BookBean book : books) {
 			System.out.println(book.getBookTitle());
 		}
-		scan.close();
+
 	}
 
-	private void bookSearchByName() {
+	private void bookSearchByName(Scanner scan) {
 		System.out.print("Enter Name:");
-		Scanner scan = new Scanner(System.in);
+
 		String name = scan.nextLine();
 		List<BookBean> books = bookService.searchByTitle(name);
 		System.out.println("No.Of books found in search is : " + books.size());
 		for (BookBean book : books) {
 			System.out.println(book.getBookName());
 		}
-		scan.close();
+
 	}
 
-	private void userSearchByUserName() {
+	private void userSearchByUserName(Scanner scan) {
 		System.out.print("Enter Username:");
-		Scanner scan = new Scanner(System.in);
+
 		String name = scan.nextLine();
 		List<UserBean> users = userService.usersByName(name);
 		System.out.println("No.Of Users found in search is : " + users.size());
 		for (UserBean user : users) {
 			System.out.println(user.getUserName());
 		}
-		scan.close();
+
 	}
 }
